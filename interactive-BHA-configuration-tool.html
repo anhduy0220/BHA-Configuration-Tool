@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>BHA Configuration Tool</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+        <!-- Bootstrap CSS v5.2.1 -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" 
+              crossorigin="anonymous" />
+        <link rel="stylesheet" href="bha-theme.css">
+    </head>
+
+    <body class="bha-theme">
+        <main class="container py-4 py-lg-5 app-shell">
+            <header class="mb-4">
+                <h1 class="h3 fw-bold mb-1">Interactive BHA Configuration Tool</h1>
+                <p class="text-primary mb-0">Choose the drilling conditons. Recommendations
+                    will update based on your selection
+                </p>
+            </header>
+
+            <!--Formation Type & Trajectory Requirement-->
+            <section class="card shadow-sm border-0 rounded-4 mb-4">
+                <div class="card-header">
+                    <h2 class="h5 fw-semibold mb-1">Formation Type</h2>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex flex-nowrap gap-2 overflow-auto pb-1" role="radiogroup" aria-label="Formation Type">
+                        <input class="btn-check" type="radio" name="formationType" id="formation-soft" value="soft" checked>
+                        <label class="btn btn-outline-secondary rounded-3 px-3 py-2 formation-pill flex-fill" for="formation-soft">
+                            Soft
+                        </label>
+                        <input class="btn-check" type="radio" name="formationType" id="formation-medium" value="medium">
+                        <label class="btn btn-outline-secondary rounded-3 px-3 py-2 formation-pill flex-fill" for="formation-medium">
+                            Medium
+                        </label>
+                        <input class="btn-check" type="radio" name="formationType" id="formation-hard" value="hard">
+                        <label class="btn btn-outline-secondary rounded-3 px-3 py-2 formation-pill flex-fill" for="formation-hard">
+                            Hard
+                        </label>
+                        <input class="btn-check" type="radio" name="formationType" id="formation-abrasive" value="abrasive">
+                        <label class="btn btn-outline-secondary rounded-3 px-3 py-2 formation-pill flex-fill" for="formation-abrasive">
+                            Abrasive
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card shadow-sm border-0 rounded-4 mb-4">
+                <div class="card-header">
+                    <h2 class="h5 fw-semibold mb-1">Trajectory Requirement</h2>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex flex-nowrap gap-2 overflow-auto pb-1" role="radiogroup" aria-label="Trajectory Type">
+                        <input class="btn-check" type="radio" name="trajectory" id="trajectory-straight" value="straight" checked>
+                        <label class="btn btn-outline-secondary rounded-3 px-3 py-2 trajectory-pill flex-fill" for="trajectory-straight">
+                            Straight
+                        </label>    
+                        <input class="btn-check" type="radio" name="trajectory" id="trajectory-build" value="build">
+                        <label class="btn btn-outline-secondary rounded-3 px-3 py-2 trajectory-pill flex-fill" for="trajectory-build">
+                            Build
+                        </label>    
+                        <input class="btn-check" type="radio" name="trajectory" id="trajectory-hold" value="hold">
+                        <label class="btn btn-outline-secondary rounded-3 px-3 py-2 trajectory-pill flex-fill" for="trajectory-hold">
+                            Hold
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!--Slider Level in RPM, WOB, Flow Rate-->
+            <section class="card shadow-sm border-0 rounded-4 mb-4">
+                <div class="card-header bg-white border-0 pb-0">
+                  <h2 class="h5 fw-semibold mb-1">RPM Level</h2>
+                </div>
+                <div class="card-body pt-3">
+                  <div class="d-flex align-items-center justify-content-between mb-2">
+                    <label class="form-label mb-0 fw-medium" for="rpmLevel">Level</label>
+                    <span class="badge text-bg-light border" id="rpmLevelBadge" aria-live="polite">Medium</span>
+                  </div>
+                  <input type="range" class="form-range" id="rpmLevel" name="rpmLevel" min="0" max="2" step="1" value="1" aria-label="RPM Level">
+                  <div class="d-flex justify-content-between small text-secondary px-1">
+                    <span>Low</span>
+                    <span>Medium</span>
+                    <span>High</span>
+                  </div>
+                </div>
+              </section>
+              
+              <section class="card shadow-sm border-0 rounded-4 mb-4">
+                <div class="card-header bg-white border-0 pb-0">
+                  <h2 class="h5 fw-semibold mb-1">WOB Level</h2>
+                </div>
+                <div class="card-body pt-3">
+                  <div class="d-flex align-items-center justify-content-between mb-2">
+                    <label class="form-label mb-0 fw-medium" for="wobLevel">Level</label>
+                    <span class="badge text-bg-light border" id="wobLevelBadge" aria-live="polite">Medium</span>
+                  </div>
+                  <input type="range" class="form-range" id="wobLevel" name="wobLevel" min="0" max="2" step="1" value="1" aria-label="WOB Level">
+                  <div class="d-flex justify-content-between small text-secondary px-1">
+                    <span>Light</span>
+                    <span>Medium</span>
+                    <span>Heavy</span>
+                  </div>
+                </div>
+              </section>
+              
+              <section class="card shadow-sm border-0 rounded-4 mb-4">
+                <div class="card-header bg-white border-0 pb-0">
+                  <h2 class="h5 fw-semibold mb-1">Flow Rate Level</h2>
+                </div>
+                <div class="card-body pt-3">
+                  <div class="d-flex align-items-center justify-content-between mb-2">
+                    <label class="form-label mb-0 fw-medium" for="flowrateLevel">Level</label>
+                    <span class="badge text-bg-light border" id="flowrateLevelBadge" aria-live="polite">Medium</span>
+                  </div>
+                  <input type="range" class="form-range" id="flowrateLevel" name="flowrateLevel" min="0" max="2" step="1" value="1" aria-label="Flow Rate Level">
+                  <div class="d-flex justify-content-between small text-secondary px-1">
+                    <span>Low</span>
+                    <span>Medium</span>
+                    <span>High</span>
+                  </div>
+                </div>
+              </section>
+            
+        </main>
+        <footer>
+            <!-- place footer here -->
+        </footer>
+        <!-- Bootstrap JavaScript Libraries -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+            crossorigin="anonymous"
+        ></script>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+            crossorigin="anonymous"
+        ></script>
+        <script src="range_slider.js"></script>
+    </body>
+</html>
