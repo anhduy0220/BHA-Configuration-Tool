@@ -174,6 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function updateAll() {
       const state = buildState();
       const output = evaluateRules(state);
+      if (window.renderOutputs) window.renderOutputs(output);
       logSummary(state, output);
     }
   
