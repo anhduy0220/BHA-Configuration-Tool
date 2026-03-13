@@ -45,12 +45,13 @@ document.addEventListener("DOMContentLoaded", () => {
     // 3) Rule Engine
     function evaluateRules(state) {
       const output = {
-        keys: { tools: [], motor: {}, bit: {} },
+        keys: { Tools: [], Motors: {}, Bit: {} },
         firedRules: [],
         notes: [],
       };
 
       const addKey = (group, key) => {
+        if (!Array.isArray(output.keys[group])) output.keys[group] = [key];
         if (!output.keys[group].includes(key)) output.keys[group].push(key);
       };
   
@@ -184,7 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (el) el.addEventListener("input", updateAll);
     });
 
-    document.querySelectorAll('input[name="formationType"], input[name="trajectoryRequirement"]')
+    document.querySelectorAll('input[name="formationType"], input[name="trajectory"]')
       .forEach((el) => el.addEventListener("change", updateAll));
   
     updateAll();

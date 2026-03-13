@@ -5,11 +5,11 @@
 
 /* 1) Theme tokens */
 :root{
-    --bha-bg-0: #070a10;
+    --bha-bg-0: #034153;
     --bha-bg-1: #0a0f19;
     --bha-panel:rgba(18, 26, 41, .70);
     --bha-panel-strong: rgba(16, 22, 35, .82);
-    --bha-border: rgba(120, 190, 255, .14);
+    --bha-border: rgba(120, 190, 255, 0.877);
     --bha-border-strong: rgba(140, 210, 255, .22);
 
     --bha-text: #e9f1ff;

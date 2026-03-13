@@ -5,8 +5,8 @@
 */
 
 (() => {
-    // --- Placeholder assets (mock) ---
-    /*const IMG = {
+    // --- Placeholder assets ---
+    const IMG = {
         tool: "assets/placeholders/tool.png",
         motor: "assets/placeholders/motor.png",
         bit: "assets/placeholders/bit.png",
@@ -20,7 +20,7 @@
         motor: "#motor",
         bit: "#bit",
         generic: "#",
-    }; */
+    };
 
     // --- Output Dictionary ---
     const BHA_DICTIONARY ={
@@ -28,8 +28,8 @@
         MWD_RECOMMENDED: {
             title:"MWD Recommended",
             description: "Measeurement while drilling is recommended",
-            //image: IMG.tool,
-            //link: LINK.mwd,
+            image: IMG.tool,
+            link: LINK.mwd,
             category: "Tools",
             tag: "Recommended",
         },
@@ -37,8 +37,8 @@
         NEAR_BIT_STABILIZER_RECOMMENDED: {
             title: "Near Bit Stabilizer Recommended",
             description: "Add a near bit stabilizer to reduce vibration and improve drilling performance",
-            //image: IMG.tool,
-            //link: LINK.stabilizer,
+            image: IMG.tool,
+            link: LINK.stabilizer,
             category: "Tools",
             tag: "Recommended",
         },
@@ -46,8 +46,8 @@
         SHOCK_VIBRATION_TOOL_RECOMMENDED: {
             title: "Shock/Vibration Tool Recommended",
             description: "Use a shock/vibration tool to mitigate high vibration risks in hard formations",
-            //image: IMG.tool,
-            //link: LINK.shock,
+            image: IMG.tool,
+            link: LINK.shock,
             category: "Tools",
             tag: "Recommended",
         },
@@ -56,8 +56,8 @@
         MOTOR_HIGH_RPM_STANDARD_TORQUE:{
             title: "Motor: High RPM / Standard Torque",
             description: "Optimized for faster drilling in soft formations, but may increase vibration risk",
-            //image: IMG.motor,
-            //link: LINK.motor,
+            image: IMG.motor,
+            link: LINK.motor,
             category: "Motors",
             tag: "Motor",
         },
@@ -65,8 +65,8 @@
         MOTOR_BALANCED_RPM_MEDIUM_TORQUE:{
             title: "Motor: Balanced RPM / Medium Torque",
             description: "A balanced choice for medium formations, offering moderate drilling speed and torque",
-            //image: IMG.motor,
-            //link: LINK.motor,
+            image: IMG.motor,
+            link: LINK.motor,
             category: "Motors",
             tag: "Motor",
         },
@@ -74,8 +74,8 @@
         MOTOR_LOW_RPM_HIGH_TORQUE:{
             title: "Motor: Low RPM / High Torque",
             description: "Designed for hard formations, providing strong torque at the cost of drilling speed",
-            //image: IMG.motor,
-            //link: LINK.motor,
+            image: IMG.motor,
+            link: LINK.motor,
             category: "Motors",
             tag: "Motor",
         },
@@ -83,8 +83,8 @@
         MOTOR_EVEN_WALL_THICKNESS_SUGGESTED:{
             title: "Motor: Even Wall Thickness",
             description: "Consider using a motor with even wall thickness to improve durability and performance in abrasive formations",
-            //image: IMG.motor,
-            //link: LINK.motor,
+            image: IMG.motor,
+            link: LINK.motor,
             category: "Motors",
             tag: "Suggestion",
         },
@@ -93,8 +93,8 @@
         BIT_AGG_HIGH:{
             title: "Bit Aggressiveness: High",
             description: "High aggressiveness can increase ROP in softer formations",
-            //image: IMG.bit,
-            //link: LINK.bit,
+            image: IMG.bit,
+            link: LINK.bit,
             category: "Bit",
             tag: "Bit",
         },
@@ -102,8 +102,8 @@
         BIT_AGG_MEDIUM:{
             title: "Bit Aggressiveness: Medium",
             description: "Balanced aggressiveness for medium formations and stability",
-            //image: IMG.bit,
-            //link: LINK.bit,
+            image: IMG.bit,
+            link: LINK.bit,
             category: "Bit",
             tag: "Bit",
         },
@@ -111,8 +111,8 @@
         BIT_AGG_LOW:{
             title: "Bit Aggressiveness: Low",
             description: "Low aggressiveness to reduce vibration in hard/abrasive formations",
-            //image: IMG.bit,
-            //link: LINK.bit,
+            image: IMG.bit,
+            link: LINK.bit,
             category: "Bit",
             tag: "Bit",
         },
@@ -120,8 +120,8 @@
         BIT_CUTTER_DENSITY_HIGH:{
             title: "Bit Cutter Density: High",
             description: "High cutter density can improve durability and performance in hard/abrasive formations",
-            //image: IMG.bit,
-            //link: LINK.bit,
+            image: IMG.bit,
+            link: LINK.bit,
             category: "Bit",
             tag: "Bit",
         },
@@ -130,9 +130,9 @@
         UNKNOWN_OUTPUT_KEY:{
             title: "Unknown Output Key",
             description: "This output key is not defined in the dictionary. Please check the rules engine for typos or missing entries.",
-            //image: IMG.generic,
-            //link: LINK.generic,
-            category: "tools",
+            image: IMG.generic,
+            link: LINK.generic,
+            category: "Tools",
             tag: "Unknown",
         },
     };
