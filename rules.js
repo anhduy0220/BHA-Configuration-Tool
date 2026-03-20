@@ -1,7 +1,9 @@
 /* rules.js
    Phase 1: Rule Engine Implementation
-   This script implements the core logic of the BHA configuration tool.
-   It defines the input parameters, the rules that govern the recommendations, and the output structure.
+   - This script implements the core logic of the BHA configuration tool.
+   - It defines the input parameters, the rules that govern the recommendations, and the output structure.
+   Phase 3: Rule output Keys
+   - 
 */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -31,7 +33,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const flowSlider = $id("flowrateLevel");
   
       const formation = getSelectedRadioValue("formationType", "soft");
-      const trajectory = getSelectedRadioValue("trajectory", "straight");
+
+      const trajectory =
+        getSelectedRadioValue("trajectory", null) ??
+        getSelectedRadioValue("trajectoryRequirement", "straight") ??
+        "straight";
   
       const rpm = rpmSlider ? levelTextFromSliderValue(rpmSlider.value, LABELS.rpm).toLowerCase() : "medium";
       const wob = wobSlider ? levelTextFromSliderValue(wobSlider.value, LABELS.wob).toLowerCase() : "medium";
@@ -41,83 +47,100 @@ document.addEventListener("DOMContentLoaded", () => {
   
       return { formation, trajectory, rpm, wob, flow, vibrationRisk };
     }
-  
+
+    function replaceKey (groupArr, removeKey, addKey) {
+      const idx = groupArr.indexOf(removeKey);
+      if (idx !== -1) groupArr.splice(idx, 1);
+      if (!groupArr.includes(addKey)) groupArr.push(addKey);
+    }
+
     // 3) Rule Engine
     function evaluateRules(state) {
       const output = {
-        keys: { Tools: [], Motors: {}, Bit: {} },
+        keys: { Tools: [], Motors: [], Bit: [] },
         firedRules: [],
-        notes: [],
-      };
-
-      const addKey = (group, key) => {
-        if (!Array.isArray(output.keys[group])) output.keys[group] = [key];
-        if (!output.keys[group].includes(key)) output.keys[group].push(key);
       };
   
-      // ----- Group A -----
-      // IF Formation = Soft OR Trajectory ≠ Straight THEN Recommend MWD = Yes
+      // Defaults: "NOT" outcomes selected
+      output.keys.Tools.push(
+        "MWD_NOT_RECOMMENDED",
+        "NEAR_BIT_STABILIZER_NOT_RECOMMENDED",
+        "SHOCK_VIBRATION_TOOL_NOT_RECOMMENDED"
+      );
+  
+      // Motor Type will always be selected below (no default here)
+      output.keys.Motors.push("MOTOR_EVEN_WALL_THICKNESS_NOT_SUGGESTED");
+  
+      // Bit: select defaults
+      output.keys.Bit.push("BIT_CUTTER_DENSITY_STANDARD");
+  
+      // Tools parameter outcomes
+      // MWD: Soft OR Trajectory != Straight => Recommended
       if (state.formation === "soft" || state.trajectory !== "straight") {
-        addKey("Tools", "MWD_RECOMMENDED");
+        replaceKey(output.keys.Tools, "MWD_NOT_RECOMMENDED", "MWD_RECOMMENDED");
         output.firedRules.push("A1");
       }
   
-      // IF Formation = Soft AND RPM = High THEN Recommend Near-bit Stabilizer = Yes
+      // Near-bit Stabilizer: Soft + RPM High => Recommended
       if (state.formation === "soft" && state.rpm === "high") {
-        addKey("Tools", "NEAR_BIT_STABILIZER_RECOMMENDED");
-        output.firedRules.push("A2");        
+        replaceKey(
+          output.keys.Tools,
+          "NEAR_BIT_STABILIZER_NOT_RECOMMENDED",
+          "NEAR_BIT_STABILIZER_RECOMMENDED"
+        );
+        output.firedRules.push("A2");
       }
   
-      // IF Formation = Hard AND Vibration Risk = High THEN Recommend Shock / Vibration Tool = Yes
+      // Shock/Vibration tool: Hard + vibration risk high => Recommended
       if (state.formation === "hard" && state.vibrationRisk === "high") {
-        addKey("Tools", "SHOCK_VIBRATION_TOOL_RECOMMENDED");
+        replaceKey(
+          output.keys.Tools,
+          "SHOCK_VIBRATION_TOOL_NOT_RECOMMENDED",
+          "SHOCK_VIBRATION_TOOL_RECOMMENDED"
+        );
         output.firedRules.push("A3");
       }
   
-      // ----- Group B -----
-      // IF Formation = Soft THEN Motor Type = High RPM / Standard Torque
+      // Motor Type parameter outcomes (one-of)
       if (state.formation === "soft") {
-        addKey("Motors", "MOTOR_HIGH_RPM_STANDARD_TORQUE");
+        output.keys.Motors.push("MOTOR_HIGH_RPM_STANDARD_TORQUE");
         output.firedRules.push("B1");
-      }
-  
-      // IF Formation = Medium THEN Motor Type = Balanced RPM / Medium Torque
-      if (state.formation === "medium") {
-        addKey("Motors", "MOTOR_BALANCED_RPM_MEDIUM_TORQUE");
+      } else if (state.formation === "medium") {
+        output.keys.Motors.push("MOTOR_BALANCED_RPM_MEDIUM_TORQUE");
         output.firedRules.push("B2");
-      }
-  
-      // IF Formation = Hard OR Abrasive THEN Motor Type = Low RPM / High Torque
-      if (state.formation === "hard" || state.formation === "abrasive") {
-        addKey("Motors", "MOTOR_LOW_RPM_HIGH_TORQUE");
+      } else {
+        // hard or abrasive
+        output.keys.Motors.push("MOTOR_LOW_RPM_HIGH_TORQUE");
         output.firedRules.push("B3");
       }
   
-      // IF WOB = Heavy AND RPM = Low THEN Suggest Even Wall Thickness Motor
+      // Even Wall Thickness: Heavy WOB + Low RPM => Suggested
       if (state.wob === "heavy" && state.rpm === "low") {
-        addKey("Motors", "MOTOR_EVEN_WALL_THICKNESS_SUGGESTED");
+        replaceKey(
+          output.keys.Motors,
+          "MOTOR_EVEN_WALL_THICKNESS_NOT_SUGGESTED",
+          "MOTOR_EVEN_WALL_THICKNESS_SUGGESTED"
+        );
         output.firedRules.push("B4");
-        output.notes.push("Even Wall Thickness Suggested due to heavy WOB and low RPM.");
       }
   
-      // ----- Group C -----
-      // IF Formation = Soft THEN Bit Aggressiveness = High
+      // Bit outcomes
+      // Aggressiveness
       if (state.formation === "soft") {
-        addKey("Bit", "BIT_AGG_HIGH");
+        output.keys.Bit.push("BIT_AGG_HIGH");
         output.firedRules.push("C1");
-      }
-  
-      // IF Formation = Medium THEN Bit Aggressiveness = Medium
-      if (state.formation === "medium") {
-        addKey("Bit", "BIT_AGG_MEDIUM");
+      } else if (state.formation === "medium") {
+        output.keys.Bit.push("BIT_AGG_MEDIUM");
         output.firedRules.push("C2");
+      } else {
+        // hard or abrasive
+        output.keys.Bit.push("BIT_AGG_LOW");
+        output.firedRules.push("C3");
       }
   
-      // IF Formation = Hard / Abrasive THEN Bit Aggressiveness = Low AND Cutter Density = High
+      // Cutter density: hard/abrasive => High, otherwise Standard
       if (state.formation === "hard" || state.formation === "abrasive") {
-        addKey("Bit", "BIT_AGG_LOW");
-        addKey("Bit", "BIT_CUTTER_DENSITY_HIGH");
-        output.firedRules.push("C3");
+        replaceKey(output.keys.Bit, "BIT_CUTTER_DENSITY_STANDARD", "BIT_CUTTER_DENSITY_HIGH");
       }
   
       return output;
@@ -129,55 +152,44 @@ document.addEventListener("DOMContentLoaded", () => {
   
       console.group("BHA Config — Inputs");
       console.table({
-        Formation: state.formation,
-        Trajectory: state.trajectory,
-        RPM: state.rpm,
-        WOB: state.wob,
+        "Formation": state.formation,
+        "Trajectory": state.trajectory,
+        "RPM": state.rpm,
+        "WOB": state.wob,
         "Flow Rate": state.flow,
         "Vibration Risk (derived)": state.vibrationRisk,
       });
       console.groupEnd();
   
-      console.group("BHA Config — Output Keys");
+      console.group("BHA Config — Selected Outcome Keys");
       console.table({
-        Tools: output.keys.Tools.join(", ") || "-",
-        Motors: output.keys.Motors.join(", ") || "-",
-        Bit: output.keys.Bit.join(", ") || "-",
+        Tools: output.keys.Tools.join(", "),
+        Motors: output.keys.Motors.join(", "),
+        Bit: output.keys.Bit.join(", "),
       });
-      console.groupEnd();
-
-      const dict = window.BHA_DICTIONARY || {};
-      
-      const toDisplayRows = (keys, category) => 
-        keys.map((key) => ({
-          category, key,
-          title: dict[key]?.title ?? "(not mapped yet)",
-        }));
-
-      const allRows = [
-        ...toDisplayRows(output.keys.Tools, "Tools"),
-        ...toDisplayRows(output.keys.Motors, "Motors"),
-        ...toDisplayRows(output.keys.Bit, "Bit"),
-      ];
-      
-      console.group("BHA Config - Detailed Suggestions");
-      console.table(allRows);
       console.groupEnd();
   
       console.log("Fired rules:", output.firedRules.join(", ") || "(none)");
-      if (output.notes.length) {
-        console.log("Notes:");
-        output.notes.forEach((n) => console.log("•", n));
-      }
     }
   
     // 5) One update function for everything
     function updateAll() {
       const state = buildState();
       const output = evaluateRules(state);
-      if (window.renderOutputs) window.renderOutputs(output);
+
+      if (window.renderOutputs) {
+        window.renderOutputs(output);
+      } else {
+        console.warn("[rules.js] renderOutputs not found. Ensure render.js is loaded before rules.js");
+      }
+
       logSummary(state, output);
     }
+
+    console.log("BHA_DICTIONARY exists?", !!window.BHA_DICTIONARY);
+    console.log("renderOutputs exists?", typeof window.renderOutputs);
+
+    window.renderOutputs({ keys: { Tools: ["MWD_RECOMMENDED"], Motors: [], Bit: [] } });
   
     // 6) Bind UI events
     ["rpmLevel", "wobLevel", "flowrateLevel"].forEach((id) => {
@@ -185,7 +197,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if (el) el.addEventListener("input", updateAll);
     });
 
-    document.querySelectorAll('input[name="formationType"], input[name="trajectory"]')
+    document
+      .querySelectorAll('input[name="formationType"], input[name="trajectory"], input[name="trajectoryRequirement"]')
       .forEach((el) => el.addEventListener("change", updateAll));
   
     updateAll();

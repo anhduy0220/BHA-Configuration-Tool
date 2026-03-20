@@ -31,7 +31,7 @@ body.bha-theme{
     min-height: 100vh;
 }
 
-body.bha-them::after{
+body.bha-theme::after{
     content:"";
     position: fixed;
     inset:0;
@@ -56,7 +56,7 @@ body.bha-them::after{
     color: var(--bha-muted) !important;
 }
 
-.bbha-theme .card-header .h5,
+.bha-theme .card-header .h5,
 .bha-theme .card-header .h2{
     text-transform: uppercase;
     letter-spacing: .06rem;
@@ -90,10 +90,11 @@ body.bha-them::after{
 }
 
 .bha-theme .badge.border{
-    border-color: rgba(255, 255, 255, .014) !important;
+    border-color: rgba(255, 255, 255, .14) !important;
 }
 
-.badge[data-level="low"]{
+.badge[data-level="low"],
+.badge[data-level="light"]{
     border-color: rgba(255,255,255,.20) !important;
     background: rgba(255,255,255,.06) !important;
 }
@@ -132,6 +133,12 @@ body.bha-them::after{
     text-align: center;
     white-space: nowrap;
 }
+
+.bha-theme .btn-check:checked + .btn{
+    background: rgba(121,216,255,.20) !important;
+    border-color: rgba(121,216,255,.85) !important;
+    box-shadow: var(--bha-glow), inset 0 1px 0 rgba(255,255,255,.08);
+  }
 
 /* 7) Range Slider */
 .bha-theme .form-range{
@@ -191,3 +198,37 @@ body.bha-them::after{
 .bha-theme .table{
     color: var(--bha-text);
 }
+
+/* 9) Card Highlighting */
+.rec-card{
+    border: 1px solid transparent;
+    transition: box-shadow .2s ease, border-color .2s ease, background-color .2s ease, transform .2s ease, opacity .2s ease;
+}
+
+.rec-card:not(.is-selected){
+    opacity: .55;
+}
+
+.rec-card.is-selected{
+    opacity: 1;
+    transform: translateY(-1px);
+}
+
+.rec-card.is-selected.is-strong{
+    border-color: rgba(121,216,255,.95) !important;
+    background: rgba(121,216,255,.14);
+    box-shadow:
+      0 0 0 .12rem rgba(121,216,255,.22),
+      0 0 1.6rem rgba(121,216,255,.32),
+      0 0 3.2rem rgba(121,216,255,.18);
+}
+
+.rec-card.is-selected.is-strong .h6{
+    text-shadow: 0 0 .9rem rgba(121,216,255,.22);
+}
+
+.rec-card:focus-within{
+    box-shadow: 0 0 0 .25rem rgba(121,216,255,.18), 0 0 1.1rem rgba(121,216,255,.22);
+}
+
+#outputArea .vstack.gap-3{gap:.4rem!important;}
