@@ -28575,9 +28575,18 @@ body.bha-theme .bha-output-col{
   padding-right: 0 !important; 
 }
 
+body.bha-theme .bha-head {
+  padding-top: 50px;
+}
+
 body.bha-theme .bha-shell .container-fluid{
   padding-left: 0 !important;
   padding-right: 0 !important;
+}
+
+body.bha-theme .bha-shell.section-space{
+  padding-top: 24px;
+  padding-bottom: 24px;
 }
 
 body.bha-theme .bha-layout{
@@ -28598,6 +28607,7 @@ body.bha-theme .bha-layout{
 }
 
 /* Layout helper */
+
 .bha-theme .app-shell{ max-width: 1500px; }
 
 /* =========================================================
@@ -28722,7 +28732,7 @@ body.bha-theme .bha-layout{
   overflow: visible !important;
 }
 
-/* Formation: 2x2 equal grid */
+/* Formation: 2 same columns */
 .bha-grid-2x2{
   grid-template-columns: repeat(2, 1fr);
 }
@@ -28732,17 +28742,17 @@ body.bha-theme .bha-layout{
   grid-template-columns: repeat(2, 1fr);
 }
 
-/* Make the "Hold" button span both columns */
+/* "Hold" button span both columns */
 .bha-grid-trajectory label[for="trajectory-hold"]{
   grid-column: 1 / -1;
 }
 
-/* Ensure all buttons are same height and fill */
+/* All buttons are same height and fill */
 .bha-grid-2x2 .btn,
 .bha-grid-trajectory .btn{
   width: 100%;
-  min-height: 42px;         /* adjust if you want taller */
-  border-radius: 6px;       /* sharp */
+  min-height: 42px;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -28800,117 +28810,151 @@ body.bha-theme .bha-layout{
 }
 
 /* =========================================================
-   Output: Table-like layout (CSS Grid) — used by new render.js
+   Output: Table-like layout (CSS Grid)
    ========================================================= */
-   .bha-theme #outputArea{
+   .bha-theme .bha-output-col .card{
+    overflow: hidden;
+  }
+  
+  .bha-theme .bha-output-col .card-header{
+    margin-bottom: 0;
+    padding: 12px 16px;
+  }
+  
+  .bha-theme .bha-output-col #outputArea{
     overflow-x: hidden;
+    padding: 0 !important;
   }
   
   .bha-theme #outputArea .bha-master-table{
-    background: var(--rs-white);
-    border: 1px solid var(--rs-border-primary);
-    border-radius: 14px;
-    padding: 18px;
+    margin: 0;
+    border: 0;
+    border-top: 1px solid rgba(0,0,0,.06);
+    border-radius: 0;
+    padding: 0;
+    background: transparent;
   }
   
-  /* 3 main columns */
   .bha-theme #outputArea .bha-master-grid{
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 14px;
+    gap: 0;
   }
   
-  @media (max-width: 991.98px){
-    .bha-theme #outputArea .bha-master-grid{
-      grid-template-columns: 1fr;
-    }
-  }
-  
-  /* Column shell */
   .bha-theme #outputArea .bha-master-col{
     min-width: 0;
-    border: 1px solid rgba(0,0,0,.08);
-    border-radius: 12px;
-    overflow: hidden;
+    border: 0;
+    border-right: 1px solid rgba(0,0,0,.08);
+    border-radius: 0;
     background: var(--rs-white);
   }
   
-  /* Column header: Tools / Motors / Bit */
+  .bha-theme #outputArea .bha-master-col:last-child{
+    border-right: 0;
+  }
+  
   .bha-theme #outputArea .bha-master-col__head{
-    padding: 10px 12px;
+    padding: 12px 14px;
     font-weight: var(--rs-fw-bold);
     color: var(--rs-title-primary);
     background: rgba(234,85,1,.08);
     border-bottom: 1px solid rgba(0,0,0,.06);
   }
   
-  /* Column body */
   .bha-theme #outputArea .bha-master-col__body{
-    padding: 10px 12px;
+    padding: 0;
     display: grid;
-    gap: 12px;
+    gap: 0;
   }
+
+/* Section (MWD, Motor Type, Agressiveness, etc.) */
+.bha-theme #outputArea .bha-master-sec{
+  margin: 8px;
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--rs-white);
+}
+
+.bha-theme #outputArea .bha-master-sec:last-child{
+  margin-bottom: 10px;
+}
+
+.bha-theme #outputArea .bha-master-sec__head{
+  padding: 10px 12px;
+  font-weight: var(--rs-fw-bold);
+  font-size: 15px;
+  color: var(--rs-title-primary);
+  background: rgba(0,0,0,.03);
+  border-bottom: 1px solid rgba(0,0,0,.06);
+}
+
+.bha-theme #outputArea .bha-master-sec__body{
+  padding: 0;
+  display: grid;
+  gap: 0;
+}
+
+.bha-theme #outputArea .bha-master-row{
+  border: 0;
+  border-radius: 0;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+  padding: 12px 14px;
+  background: transparent;
+  transition: background-color .2s ease, box-shadow .2s ease;
+}
+
+.bha-theme #outputArea .bha-master-row:first-child{
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.bha-theme #outputArea .bha-master-row:last-child{
+  border-bottom: 0;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.bha-theme #outputArea .bha-master-row:hover{
+  background: rgba(0,0,0,.02);
+}
+
+.bha-theme #outputArea .bha-master-row__title{
+  font-weight: var(--rs-fw-bold);
+  color: var(--rs-title-primary);
+  font-size: 14px;
+  line-height: 1.3;
+  word-break: break-word;
+}
+
+.bha-theme #outputArea .bha-master-row__link{
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--rs-theme-orange);
+  text-decoration: none;
+}
+
+.bha-theme #outputArea .bha-master-row__link:hover{
+  text-decoration: underline;
+}
+
+.bha-theme #outputArea .bha-master-row.is-selected{
+  background: rgba(234,85,1,.08);
+  box-shadow: inset 3px 0 0 var(--rs-theme-orange);
+}
   
-  /* Section (MWD, Near-bit, etc.) */
-  .bha-theme #outputArea .bha-master-sec{
-    border: 1px solid rgba(0,0,0,.08);
-    border-radius: 10px;
-    overflow: hidden;
-    background: var(--rs-white);
-  }
+  @media (max-width: 991.98px){
+    .bha-theme #outputArea .bha-master-grid{
+      grid-template-columns: 1fr;
+    }
   
-  /* Section header */
-  .bha-theme #outputArea .bha-master-sec__head{
-    padding: 10px 12px;
-    font-weight: var(--rs-fw-bold);
-    color: var(--rs-title-primary);
-    background: rgba(0,0,0,.03);
-    border-bottom: 1px solid rgba(0,0,0,.06);
-  }
+    .bha-theme #outputArea .bha-master-col{
+      border-right: 0;
+      border-bottom: 1px solid rgba(0,0,0,.08);
+    }
   
-  /* Section body (rows list) */
-  .bha-theme #outputArea .bha-master-sec__body{
-    padding: 10px 12px;
-    display: grid;
-    gap: 10px;
-  }
-  
-  /* Row (outcome) */
-  .bha-theme #outputArea .bha-master-row{
-    border: 1px solid rgba(0,0,0,.10);
-    border-radius: 10px;
-    padding: 10px;
-    background: var(--rs-white);
-    transition: box-shadow .2s ease, border-color .2s ease, background-color .2s ease;
-  }
-  
-  /* Row title */
-  .bha-theme #outputArea .bha-master-row__title{
-    font-weight: var(--rs-fw-bold);
-    color: var(--rs-title-primary);
-    font-size: 14px;
-    line-height: 1.25;
-    word-break: break-word;
-  }
-  
-  /* Link */
-  .bha-theme #outputArea .bha-master-row__link{
-    display: inline-block;
-    margin-top: 6px;
-    font-size: 13px;
-    color: var(--rs-theme-orange);
-    text-decoration: none;
-  }
-  .bha-theme #outputArea .bha-master-row__link:hover{
-    text-decoration: underline;
-  }
-  
-  /* Selected highlight (same feel as previous orange glow) */
-  .bha-theme #outputArea .bha-master-row.is-selected{
-    border-color: var(--rs-theme-orange);
-    background: rgba(234,85,1,.06);
-    box-shadow:
-      0 0 0 .12rem rgba(234,85,1,.16),
-      0 0 1.35rem rgba(234,85,1,.22),
-      0 0 2.75rem rgba(234,85,1,.14);
+    .bha-theme #outputArea .bha-master-col:last-child{
+      border-bottom: 0;
+    }
   }

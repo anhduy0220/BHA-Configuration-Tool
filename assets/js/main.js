@@ -32,8 +32,8 @@
     }
 
     /*======================================
-Sidebar Toggle
-========================================*/
+    Sidebar Toggle
+    ========================================*/
     $(".offcanvas-close,.offcanvas-overlay").on("click", function () {
         $(".offcanvas-area").removeClass("info-open");
         $(".offcanvas-overlay").removeClass("overlay-open");
